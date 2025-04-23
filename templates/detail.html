@@ -1,0 +1,329 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="dataModalLabel">Application Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div class="container d-flex detail-container">
+    {#    FIRST COL     #}
+        <div class="col d-col">
+            {#        BASE STATS TABLE         #}
+            <table class="table table-bordered  table-striped table-sm d-tbl">
+              <tbody>
+                <tr>
+                  <th scope="row">Development Name</th>
+                  <td>{{ detail_obj.Development_Name }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Address</th>
+                  <td>{{ detail_obj.Address_Line }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">City</th>
+                  <td>{{ detail_obj.City }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">County</th>
+                  <td>{{ detail_obj.County }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Region</th>
+                  <td>{{ detail_obj.Region }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Coordinates</th>
+                  <td>{{ detail_obj.Coordinates }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Census Tract #</th>
+                  <td>{{ detail_obj.Census_Tract }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Acreage</th>
+                  <td>{{ detail_obj.Acreage }}</td>
+                </tr>
+                <tr>
+                    <th class="text-center" scope="row" colspan="2">Units</th>
+                </tr>
+                <tr>
+                  <th scope="row">Total</th>
+                  <td>{{ detail_obj.Total_Units }}</td>
+                </tr>
+              <tr>
+                  <th scope="row">LIHTC</th>
+                  <td>{{ detail_obj.LIHTC_Units }}</td>
+              </tr>
+              <tr>
+                  <th scope="row">MR</th>
+                  <td>{{ detail_obj.MR_Units }}</td>
+              </tr>
+
+              </tbody>
+            </table>
+            {#     DEV STATS TABLE    #}
+            <table class="table table-bordered table-sm d-tbl">
+              <tbody>
+                <tr>
+                  <th scope="row">Developer</th>
+                  <td>{{ detail_obj.Developer }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Development Owner</th>
+                  <td>{{ detail_obj.Development_Owner }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">HUB</th>
+                  <td>{{ detail_obj.HUB }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Non Profit</th>
+                  <td>{{ detail_obj.Non_Profit }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">NP Tax Exempt</th>
+                  <td>{{ detail_obj.NP_Tax_Exempt }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Development Entity</th>
+                  <td>{{ detail_obj.Development_Entity }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+        </div>
+    {#    CONTAINER COL   #}
+        <div class="col-9 d-col">
+            <div class="container-fluid">
+                <div class="row d-flex justify-content-around">
+                    <div class="col d-col">
+                    {#        PROGRAM TABLE            #}
+                    <table class="table table-bordered table-sm d-tbl">
+                    <tbody>
+                        <tr>
+                          <th scope="row">Program</th>
+                          <td>{{ detail_obj.Program }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Total Funding</th>
+                          <td>{{ detail_obj.Total_Funding }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Common SF</th>
+                          <td>{{ detail_obj.Common_SF }}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">NRA SF</th>
+                          <td>{{ detail_obj.NRA_SF }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                </div>
+                    <div class="col d-col">
+                        {#        TDHCA # TABLE            #}
+                        <table class="table table-bordered table-sm d-tbl">
+                        <tbody>
+                            <tr>
+                              <th scope="row">TDHCA #</th>
+                              <td>{{ detail_obj.TDHCA_Number }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Original #</th>
+                              <td>{{ detail_obj.Original_Number }}</td>
+                            </tr>
+                            <tr>
+                                  <th scope="row">Designation</th>
+                                  <td>{{ detail_obj.Designation }}</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">Pop Served</th>
+                                  <td>{{ detail_obj.Pop_Served }}</td>
+                                </tr>
+                                <tr>
+                                  <th scope="row">Year (underserved)</th>
+                                  <td>{{ detail_obj.Year_Underserved }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    </div>
+                    <div class="col d-col">
+                        {#        POP TABLE            #}
+                        <table class="table table-bordered table-sm d-tbl">
+                        <tbody>
+                            <tr>
+                              <th scope="row">Contact Point</th>
+                              <td>{{ detail_obj.Contact_Point }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Dev Owner</th>
+                              <td>{{ detail_obj.Dev_Owner }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Asset Manager</th>
+                              <td>{{ detail_obj.Asset_Manager }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    </div>
+                    <div class="col d-col">
+                        {#        POP TABLE            #}
+                        <table class="table table-bordered table-sm d-tbl">
+                        <tbody>
+                            <tr>
+                              <th scope="row">Activity</th>
+                              <td>{{ detail_obj.Activity }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Set Aside</th>
+                              <td>{{ detail_obj.Set_Aside }}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Last Updated</th>
+                              <td>{{ detail_obj.Last_Updated }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7 d-col">
+                    {#        TDHCA TABLE            #}
+                        <table class="table table-bordered table-striped table-sm d-tbl">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th scope="col">Additional Funding</th>
+                                    <th scope="col">Funding Amount</th>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Year</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">MFDL</th>
+                                    <td>{{ detail_obj.MFDL_Additional_Funding }}</td>
+                                    <td>{{ detail_obj.MFDL_Funding_Amount }}</td>
+                                    <td>{{ detail_obj.MFDL_Number }}</td>
+                                    <td>{{ detail_obj.MFDL_Year }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Supplemental</th>
+                                    <td>{{ detail_obj.Supplemental_Additional_Funding }}</td>
+                                    <td>{{ detail_obj.Supplemental_Funding_Amount }}</td>
+                                    <td>{{ detail_obj.Supplemental_Number }}</td>
+                                    <td>{{ detail_obj.Supplemental_Year }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Force Majeure</th>
+                                    <td>{{ detail_obj.Force_Majeure_Additional_Funding }}</td>
+                                    <td>{{ detail_obj.Force_Majeure_Funding_Amount }}</td>
+                                    <td>{{ detail_obj.Force_Majeure_Number }}</td>
+                                    <td>{{ detail_obj.Force_Majeure_Year }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Fwd Cmit</th>
+                                    <td>{{ detail_obj.Fwd_Cmit_Additional_Funding }}</td>
+                                    <td>{{ detail_obj.Fwd_Cmit_Funding_Amount }}</td>
+                                    <td>{{ detail_obj.Fwd_Cmit_Number }}</td>
+                                    <td>{{ detail_obj.Fwd_Cmit_Year }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">TCAP/TCEP</th>
+                                    <td>{{ detail_obj.TCAP_TCEP_Additional_Funding }}</td>
+                                    <td>{{ detail_obj.TCAP_TCEP_Funding_Amount }}</td>
+                                    <td>{{ detail_obj.TCAP_TCEP_Number }}</td>
+                                    <td>{{ detail_obj.TCAP_TCEP_Year }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    {#       DATES TABLE         #}
+                    <table class="table table-bordered table-striped table-sm d-tbl">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th scope="col" colspan="2" style="background-color: yellow;">Due Dates</th>
+                                    <th scope="col" colspan="2" style="background-color: yellow;">Submitted Dates</th>
+                                    <th scope="col" colspan="2" style="background-color: yellow;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td><i>Original</i></td>
+                                    <td><i>New</i></td>
+                                    <td><i>Original</i></td>
+                                    <td><i>New</i></td>
+                                    <td><i>Original</i></td>
+                                    <td><i>New</i></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Commitment</th>
+                                    <td>{{ detail_obj.Commitment_Due_Original }}</td>
+                                    <td>{{ detail_obj.Commitment_Due_New }}</td>
+                                    <td>{{ detail_obj.Commitment_Submitted_Original }}</td>
+                                    <td>{{ detail_obj.Commitment_Submitted_New }}</td>
+                                    <td>{{ detail_obj.Commitment_Status_Original }}</td>
+                                    <td>{{ detail_obj.Commitment_Status_New }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Carryover</th>
+                                    <td>{{ detail_obj.Carryover_Due_Original }}</td>
+                                    <td>{{ detail_obj.Carryover_Due_New }}</td>
+                                    <td>{{ detail_obj.Carryover_Submitted_Original }}</td>
+                                    <td>{{ detail_obj.Carryover_Submitted_New }}</td>
+                                    <td>{{ detail_obj.Carryover_Status_Original }}</td>
+                                    <td>{{ detail_obj.Carryover_Status_New }}</td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">Ten Percent</th>
+                                    <td>{{ detail_obj.Ten_Percent_Due_Original }}</td>
+                                    <td>{{ detail_obj.Ten_Percent_Due_New }}</td>
+                                    <td>{{ detail_obj.Ten_Percent_Submitted_Original }}</td>
+                                    <td>{{ detail_obj.Ten_Percent_Submitted_New }}</td>
+                                    <td>{{ detail_obj.Ten_Percent_Status_Original }}</td>
+                                    <td>{{ detail_obj.Ten_Percent_Status_New }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Cost Cert</th>
+                                    <td>{{ detail_obj.Cost_Cert_Due_Original }}</td>
+                                    <td>{{ detail_obj.Cost_Cert_Due_New }}</td>
+                                    <td>{{ detail_obj.Cost_Cert_Submitted_Original }}</td>
+                                    <td>{{ detail_obj.Cost_Cert_Submitted_New }}</td>
+                                    <td>{{ detail_obj.Cost_Cert_Status_Original }}</td>
+                                    <td>{{ detail_obj.Cost_Cert_Status_New }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">CSR</th>
+                                    <td>{{ detail_obj.CSR_Due_Original }}</td>
+                                    <td>{{ detail_obj.CSR_Due_New }}</td>
+                                    <td>{{ detail_obj.CSR_Submitted_Original }}</td>
+                                    <td>{{ detail_obj.CSR_Submitted_New }}</td>
+                                    <td>{{ detail_obj.CSR_Status_Original }}</td>
+                                    <td>{{ detail_obj.CSR_Status_New }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Placed In Service</th>
+                                    <td>{{ detail_obj.PiS_Due_Original }}</td>
+                                    <td>{{ detail_obj.PiS_Due_New }}</td>
+                                    <td>{{ detail_obj.PiS_Submitted_Original }}</td>
+                                    <td>{{ detail_obj.PiS_Submitted_New }}</td>
+                                    <td>{{ detail_obj.PiS_Status_Original }}</td>
+                                    <td>{{ detail_obj.PiS_Status_New }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="detail_edit({{ detail_obj.id }})">Edit</button>
+</div>

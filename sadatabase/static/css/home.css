@@ -1,0 +1,10 @@
+.phase-card { width: 100%; }
+.phase-card-body { min-height: 40vh; }
+.app-opts { float: right;}
+.app-stat { background-color: #D0E0F0; padding: 2px;}
+.padding-20 { height: 20px; }
+.modal-big {width: 95%; max-width: 1820px; max-height: 80%; overflow-y: auto;}
+.d-tbl { padding: 3px; }
+.d-col { margin-left: 3px; margin-right: 3px; }
+.hlight { background-color: yellow; }
+.detail-container {font-size: smaller; }

@@ -1,0 +1,28 @@
+{% load sadatabase_tt %}
+{% load static %}
+{% for x in results %}
+    <div class="row">
+        <div class="card shadow p-3 mb-3 bg-white rounded">
+            <div style="padding-bottom: 10px;">
+                <b>{{ x.Development_Name }}</b>
+                <button type="button" class="btn btn-outline-secondary app-opts" id="detail-btn" data-bs-toggle="modal" data-bs-target="#dataModal" onclick="detail_table('{{ x.id }}')">
+                    <img src="{% static 'bootstrap_icons/clipboard-data.svg' %}" alt="View Details">
+                </button>
+                <button type="button" class="btn btn-outline-secondary app-opts" data-bs-toggle="modal" data-bs-target="#filesModal" data-id="{{ x.id }}">
+                    <img src="{% static 'bootstrap_icons/folder.svg' %}" alt="View Files">
+                </button>
+            </div>
+            <div>
+                <span class="border rounded app-stat">TDHCA #: {{ x.TDHCA_Number }}</span>
+                <span class="border rounded app-stat">Last Updated: {{ x.Last_Updated }}</span>
+            </div>
+            <br>
+            <div>
+                {% for tag in x|tags %}
+                    <span class="border rounded" style="background-color: {{ tag.color }}; color: white; padding: 1px;">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <br>
+{% endfor %}

@@ -1,0 +1,422 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="dataModalLabel">Edit Application</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form method="post">
+    {% csrf_token %}
+        <div class="container d-flex detail-container">
+{#    FIRST COL     #}
+            <div class="col d-col">
+                {#        BASE STATS TABLE         #}
+                <table class="table table-bordered  table-striped table-sm d-tbl">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Development Name</th>
+                        <td>{{ form.Development_Name }}
+                            <span class='error-message'>{{ form.Development_Name.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Address</th>
+                        <td>{{ form.Address_Line }}
+                            <span class='error-message'>{{ form.Address_Line.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">City</th>
+                        <td>{{ form.City }}
+                            <span class='error-message'>{{ form.City.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">County</th>
+                        <td>{{ form.County }}
+                            <span class='error-message'>{{ form.County.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Region</th>
+                        <td>{{ form.Region }}
+                            <span class='error-message'>{{ form.Region.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Coordinates</th>
+                        <td>{{ form.Coordinates }}
+                            <span class='error-message'>{{ form.Coordinates.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Census Tract #</th>
+                        <td>{{ form.Census_Tract }}
+                            <span class='error-message'>{{ form.Census_Tract.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Acreage</th>
+                        <td>{{ form.Acreage }}
+                            <span class='error-message'>{{ form.Acreage.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center" scope="row" colspan="2">Units</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total</th>
+                        <td>{{ form.Total_Units }}
+                            <span class='error-message'>{{ form.Total_Units.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">LIHTC</th>
+                        <td>{{ form.LIHTC_Units }}
+                            <span class='error-message'>{{ form.LIHTC_Units.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">MR</th>
+                        <td>{{ form.MR_Units }}
+                            <span class='error-message'>{{ form.MR_Units.errors }}</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                {#     DEV STATS TABLE    #}
+                <table class="table table-bordered table-sm d-tbl">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Developer</th>
+                        <td>{{ form.Developer }}
+                            <span class='error-message'>{{ form.Developer.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Development Owner</th>
+                        <td>{{ form.Development_Owner }}
+                            <span class='error-message'>{{ form.Development_Owner.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">HUB</th>
+                        <td>{{ form.HUB }}
+                            <span class='error-message'>{{ form.HUB.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Non Profit</th>
+                        <td>{{ form.Non_Profit }}
+                            <span class='error-message'>{{ form.Non_Profit.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">NP Tax Exempt</th>
+                        <td>{{ form.NP_Tax_Exempt }}
+                            <span class='error-message'>{{ form.NP_Tax_Exempt.errors }}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Development Entity</th>
+                        <td>{{ form.Development_Entity }}
+                            <span class='error-message'>{{ form.Development_Entity.errors }}</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            {#    CONTAINER COL   #}
+            <div class="col-9 d-col">
+                <div class="container-fluid">
+                    <div class="row d-flex justify-content-around">
+                        <div class="col d-col">
+                            {#        PROGRAM TABLE            #}
+                            <table class="table table-bordered table-sm d-tbl">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Program</th>
+                                    <td>{{ form.Program }}
+                                        <span class='error-message'>{{ form.Program.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Total Funding</th>
+                                    <td>{{ form.Total_Funding }}
+                                        <span class='error-message'>{{ form.Total_Funding.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Common SF</th>
+                                    <td>{{ form.Common_SF }}
+                                        <span class='error-message'>{{ form.Common_SF.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">NRA SF</th>
+                                    <td>{{ form.NRA_SF }}
+                                        <span class='error-message'>{{ form.NRA_SF.errors }}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col d-col">
+                            {#        TDHCA # TABLE            #}
+                            <table class="table table-bordered table-sm d-tbl">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">TDHCA #</th>
+                                    <td>{{ form.TDHCA_Number }}
+                                        <span class='error-message'>{{ form.TDHCA_Number.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Original #</th>
+                                    <td>{{ form.Original_Number }}
+                                        <span class='error-message'>{{ form.Original_Number.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Designation</th>
+                                    <td>{{ form.Designation }}
+                                        <span class='error-message'>{{ form.Designation.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Pop Served</th>
+                                    <td>{{ form.Pop_Served }}
+                                        <span class='error-message'>{{ form.Pop_Served.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Year (underserved)</th>
+                                    <td>{{ form.Year_Underserved }}
+                                        <span class='error-message'>{{ form.Year_Underserved.errors }}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col d-col">
+                            {#        POP TABLE            #}
+                            <table class="table table-bordered table-sm d-tbl">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Contact Point</th>
+                                    <td>{{ form.Contact_Point }}
+                                        <span class='error-message'>{{ form.Contact_Point.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Dev Owner</th>
+                                    <td>{{ form.Dev_Owner }}
+                                        <span class='error-message'>{{ form.Dev_Owner.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Asset Manager</th>
+                                    <td>{{ form.Asset_Manager }}
+                                        <span class='error-message'>{{ form.Asset_Manager.errors }}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col d-col">
+                            {#        POP TABLE            #}
+                            <table class="table table-bordered table-sm d-tbl">
+                                <tbody>
+                                <tr>
+                                    <th scope="row">Activity</th>
+                                    <td>{{ form.Activity }}
+                                        <span class='error-message'>{{ form.Activity.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Set Aside</th>
+                                    <td>{{ form.Set_Aside }}
+                                        <span class='error-message'>{{ form.Set_Aside.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Last Updated</th>
+                                    <td>{{ form.Last_Updated }}
+                                        <span class='error-message'>{{ form.Last_Updated.errors }}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7 d-col">
+                            {#        TDHCA TABLE            #}
+                            <table class="table table-bordered table-striped table-sm d-tbl">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th scope="col">Additional Funding</th>
+                                    <th scope="col">Funding Amount</th>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Year</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">MFDL</th>
+                                    <td>{{ form.MFDL_Additional_Funding }}
+                                        <span class='error-message'>{{ form.MFDL_Additional_Funding.errors }}</span></td>
+                                    <td>{{ form.MFDL_Funding_Amount }}
+                                        <span class='error-message'>{{ form.MFDL_Funding_Amount.errors }}</span></td>
+                                    <td>{{ form.MFDL_Number }}
+                                        <span class='error-message'>{{ form.MFDL_Number.errors }}</span></td>
+                                    <td>{{ form.MFDL_Year }}
+                                        <span class='error-message'>{{ form.MFDL_Year.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Supplemental</th>
+                                    <td>{{ form.Supplemental_Additional_Funding }}
+                                        <span class='error-message'>{{ form.Supplemental_Additional_Funding.errors }}</span></td>
+                                    <td>{{ form.Supplemental_Funding_Amount }}
+                                        <span class='error-message'>{{ form.Supplemental_Funding_Amount.errors }}</span></td>
+                                    <td>{{ form.Supplemental_Number }}
+                                        <span class='error-message'>{{ form.Supplemental_Number.errors }}</span></td>
+                                    <td>{{ form.Supplemental_Year }}
+                                        <span class='error-message'>{{ form.Supplemental_Year.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Force Majeure</th>
+                                    <td>{{ form.Force_Majeure_Additional_Funding }}
+                                        <span class='error-message'>{{ form.Force_Majeure_Additional_Funding.errors }}</span></td>
+                                    <td>{{ form.Force_Majeure_Funding_Amount }}
+                                        <span class='error-message'>{{ form.Force_Majeure_Funding_Amount.errors }}</span></td>
+                                    <td>{{ form.Force_Majeure_Number }}
+                                        <span class='error-message'>{{ form.Force_Majeure_Number.errors }}</span></td>
+                                    <td>{{ form.Force_Majeure_Year }}
+                                        <span class='error-message'>{{ form.Force_Majeure_Year.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Fwd Cmit</th>
+                                    <td>{{ form.Fwd_Cmit_Additional_Funding }}
+                                        <span class='error-message'>{{ form.Fwd_Cmit_Additional_Funding.errors }}</span></td>
+                                    <td>{{ form.Fwd_Cmit_Funding_Amount }}
+                                        <span class='error-message'>{{ form.Fwd_Cmit_Funding_Amount.errors }}</span></td>
+                                    <td>{{ form.Fwd_Cmit_Number }}
+                                        <span class='error-message'>{{ form.Fwd_Cmit_Number.errors }}</span></td>
+                                    <td>{{ form.Fwd_Cmit_Year }}
+                                        <span class='error-message'>{{ form.Fwd_Cmit_Year.errors }}</span></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">TCAP/TCEP</th>
+                                    <td>{{ form.TCAP_TCEP_Additional_Funding }}
+                                        <span class='error-message'>{{ form.TCAP_TCEP_Additional_Funding.errors }}</span></td>
+                                    <td>{{ form.TCAP_TCEP_Funding_Amount }}
+                                        <span class='error-message'>{{ form.TCAP_TCEP_Funding_Amount.errors }}</span></td>
+                                    <td>{{ form.TCAP_TCEP_Number }}
+                                        <span class='error-message'>{{ form.TCAP_TCEP_Number.errors }}</span></td>
+                                    <td>{{ form.TCAP_TCEP_Year }}
+                                        <span class='error-message'>{{ form.TCAP_TCEP_Year.errors }}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {#       DATES TABLE         #}
+                        <table class="table table-bordered table-striped table-sm d-tbl">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th scope="col" colspan="2" style="background-color: yellow;">Due Dates</th>
+                                <th scope="col" colspan="2" style="background-color: yellow;">Submitted Dates</th>
+                                <th scope="col" colspan="2" style="background-color: yellow;">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td></td>
+                                <td><i>Original</i></td>
+                                <td><i>New</i></td>
+                                <td><i>Original</i></td>
+                                <td><i>New</i></td>
+                                <td><i>Original</i></td>
+                                <td><i>New</i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Commitment</th>
+                                <td>{{ form.Commitment_Due_Original }}
+                                    <span class='error-message'>{{ form.Commitment_Due_Original.errors }}</span></td>
+                                <td>{{ form.Commitment_Due_New }}
+                                    <span class='error-message'>{{ form.Commitment_Due_New.errors }}</span></td>
+                                <td>{{ form.Commitment_Submitted_Original }}
+                                    <span class='error-message'>{{ form.Commitment_Submitted_Original.errors }}</span></td>
+                                <td>{{ form.Commitment_Submitted_New }}
+                                    <span class='error-message'>{{ form.Commitment_Submitted_New.errors }}</span></td>
+                                <td>{{ form.Commitment_Status_Original }}
+                                    <span class='error-message'>{{ form.Commitment_Status_Original.errors }}</span></td>
+                                <td>{{ form.Commitment_Status_New }}
+                                    <span class='error-message'>{{ form.Commitment_Status_New.errors }}</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Carryover</th>
+                                <td>{{ form.Carryover_Due_Original }}
+                                    <span class='error-message'>{{ form.Carryover_Due_Original.errors }}</span></td>
+                                <td>{{ form.Carryover_Due_New }}
+                                    <span class='error-message'>{{ form.Carryover_Due_New.errors }}</span></td>
+                                <td>{{ form.Carryover_Submitted_Original }}
+                                    <span class='error-message'>{{ form.Carryover_Submitted_Original.errors }}</span></td>
+                                <td>{{ form.Carryover_Submitted_New }}
+                                    <span class='error-message'>{{ form.Carryover_Submitted_New.errors }}</span></td>
+                                <td>{{ form.Carryover_Status_Original }}
+                                    <span class='error-message'>{{ form.Carryover_Status_Original.errors }}</span></td>
+                                <td>{{ form.Carryover_Status_New }}
+                                    <span class='error-message'>{{ form.Carryover_Status_New.errors }}</span></td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row">Ten Percent</th>
+                                <td>{{ form.Ten_Percent_Due_Original }}
+                                    <span class='error-message'>{{ form.Ten_Percent_Due_Original.errors }}</span></td>
+                                <td>{{ form.Ten_Percent_Due_New }}
+                                    <span class='error-message'>{{ form.Ten_Percent_Due_New.errors }}</span></td>
+                                <td>{{ form.Ten_Percent_Submitted_Original }}
+                                    <span class='error-message'>{{ form.Ten_Percent_Submitted_Original.errors }}</span></td>
+                                <td>{{ form.Ten_Percent_Submitted_New }}
+                                    <span class='error-message'>{{ form.Ten_Percent_Submitted_New.errors }}</span></td>
+                                <td>{{ form.Ten_Percent_Status_Original }}
+                                    <span class='error-message'>{{ form.Ten_Percent_Status_Original.errors }}</span></td>
+                                <td>{{ form.Ten_Percent_Status_New }}
+                                    <span class='error-message'>{{ form.Ten_Percent_Status_New.errors }}</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cost Cert</th>
+                                <td>{{ form.Cost_Cert_Due_Original }}
+                                    <span class='error-message'>{{ form.Cost_Cert_Due_Original.errors }}</span></td>
+                                <td>{{ form.Cost_Cert_Due_New }}
+                                    <span class='error-message'>{{ form.Cost_Cert_Due_New.errors }}</span></td>
+                                <td>{{ form.Cost_Cert_Submitted_Original }}
+                                    <span class='error-message'>{{ form.Cost_Cert_Submitted_Original.errors }}</span></td>
+                                <td>{{ form.Cost_Cert_Submitted_New }}
+                                    <span class='error-message'>{{ form.Cost_Cert_Submitted_New.errors }}</span></td>
+                                <td>{{ form.Cost_Cert_Status_Original }}
+                                    <span class='error-message'>{{ form.Cost_Cert_Status_Original.errors }}</span></td>
+                                <td>{{ form.Cost_Cert_Status_New }}
+                                    <span class='error-message'>{{ form.Cost_Cert_Status_New.errors }}</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">CSR</th>
+                                <td>{{ form.CSR_Due_Original }}
+                                    <span class='error-message'>{{ form.CSR_Due_Original.errors }}</span></td>
+                                <td>{{ form.CSR_Due_New }}
+                                    <span class='error-message'>{{ form.CSR_Due_New.errors }}</span></td>
+                                <td>{{ form.CSR_Submitted_Original }}
+                                    <span class='error-message'>{{ form.CSR_Submitted_Original.errors }}</span></td>
+                                <td>{{ form.CSR_Submitted_New }}
+                                    <span class='error-message'>{{ form.CSR_Submitted_New.errors }}</span></td>
+                                <td>{{ form.CSR_Status_Original }}
+                                    <span class='error-message'>{{ form.CSR_Status_Original.errors }}</span></td>
+                                <td>{{ form.CSR_Status_New }}
+                                    <span class='error-message'>{{ form.CSR_Status_New.errors }}</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Placed In Service</th>
+                                <td>{{ form.PiS_Due_Original }}
+                                    <span class='error-message'>{{ form.PiS_Due_Original.errors }}</span></td>
+                                <td>{{ form.PiS_Due_New }}
+                                    <span class='error-message'>{{ form.PiS_Due_New.errors }}</span></td>
+                                <td>{{ form.PiS_Submitted_Original }}
+                                    <span class='error-message'>{{ form.PiS_Submitted_Original.errors }}</span></td>
+                                <td>{{ form.PiS_Submitted_New }}
+                                    <span class='error-message'>{{ form.PiS_Submitted_New.errors }}</span></td>
+                                <td>{{ form.PiS_Status_Original }}
+                                    <span class='error-message'>{{ form.PiS_Status_Original.errors }}</span></td>
+                                <td>{{ form.PiS_Status_New }}
+                                    <span class='error-message'>{{ form.PiS_Status_New.errors }}</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="pass_id" name="obj_id" value="{{ app_id }}" hidden>
+        <input type="submit" id="submit-form" hidden/>
+    </form>
+</div>
+<div class="modal-footer">
+    <label class="btn btn-primary" for="submit-form" tabindex="0" data-bs-dismiss="modal">Save</label>
+</div>
+
