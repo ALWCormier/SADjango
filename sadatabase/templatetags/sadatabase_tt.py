@@ -31,17 +31,29 @@ def tags(obj):
 
 @register.filter(name="readable")
 def readable(s):
-    return s.replace("_", " ").title()
+    return s.replace("_", " ")
 
 
 @register.filter(name="get_obj")
 def get_obj(field_name):
 
     field_vals = list(Application.objects.values_list(field_name, flat=True).distinct())
-    return field_vals
+    return ['' if v is None else v for v in field_vals]
 
 
 @register.filter(name="op")
 def op(s):
 
     return f"{s}_op"
+
+
+@register.filter(name="get_type")
+def get_type(datalist):
+
+    return datalist[0]
+
+
+@register.filter(name="get_default")
+def get_default(datalist):
+
+    return datalist[1]

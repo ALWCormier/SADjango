@@ -3,8 +3,10 @@ from .forms import LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.core.exceptions import FieldDoesNotExist
+from django.http import HttpResponse
 from .models import Application
 from .models import ApplicationForm
+import time
 
 
 def login_view(request):
@@ -25,6 +27,13 @@ def login_view(request):
                 return redirect('/')
 
         return render(request, 'login.html', {'form': form})
+
+
+def index_view(request):
+    if not request.user.is_authenticated:
+        return redirect("/login")
+
+    return render(request, 'index.html')
 
 
 def home_view(request):
@@ -94,6 +103,12 @@ def search(request):
         kwargs = {}
         for field in all_fields:
             if field in request.POST:
+                # first, update that field's value in the session information
+                type_default_pair = field_dict[field]
+                type_default_pair[1] = request.POST.get(field)
+                request.session["field_dict"][field] = type_default_pair
+
+                # get operator, if applicable, to add ">" or "<" to the query
                 op = request.POST.get(f"{field}_op")
                 if op == ">=":
                     kwargs[f"{field}__gte"] = request.POST.get(field)
@@ -102,10 +117,13 @@ def search(request):
                 else:
                     kwargs[field] = request.POST.get(field)
 
-        print(kwargs)
+        print(f"kwargs {kwargs}")
         qobjs = Application.objects.filter(**kwargs)
-        print(list(qobjs))
+        print(list({qobjs}))
         context["results"] = list(qobjs)
+
+    else:
+        request.session["field_dict"] = {}
 
     return render(request, 'search.html', context)
 
@@ -132,37 +150,83 @@ def edit(request):
 
 def change_terms(request):
 
-    if not request.user.is_authenticated:
-        return redirect("/login")
-
     context = {}
-
-    if request.session.get("field_dict", False):
-        field_dict = request.session["field_dict"]
-    else:
-        field_dict = {}
-
-    field = request.GET.get("field")
-    field = field.replace(" ", "_")
-    if field in field_dict.keys():
-        del field_dict[field]
-        request.session["field_dict"] = field_dict
-    else:
-        try:
-            ftype = Application._meta.get_field(field).get_internal_type()
-            ftype = ftype[0:4].lower()
-            field_dict[field] = ftype
-            request.session["field_dict"] = field_dict
-        except FieldDoesNotExist:
-            print("not a field")
-    context["field_dict"] = field_dict
-    print(field_dict)
+    context["field_dict"] = request.session["field_dict"]
 
     return render(request, 'term_snippet.html', context)
 
 
+def update_field_defaults(request):
+
+    if not request.user.is_authenticated:
+        return redirect("/login")
+
+    print(f"start of change terms: {time.time()}")
+
+    # create field dictionary, from session or a new dict
+    if request.session.get("field_dict", False):
+        field_dict = request.session["field_dict"]
+        fdkeys = field_dict.keys()
+        valslist = request.GET.get('valslist', None)
+        print(f"valslist: {valslist}")
+        if valslist:
+            termsplit = valslist.split("&")
+            for pair in termsplit:
+                print()
+                keyval = pair.split("=")
+                # if the key, or field name exists in field_dict, update the field with the value
+                if keyval[0] in fdkeys:
+                    # grab the [type, default] list from the field dict
+                    dvals = field_dict[keyval[0]]
+                    # replace the default with the new value from valslist
+                    dvals[1] = str(keyval[1]).replace("+", " ")
+                    field_dict[keyval[0]] = dvals
+
+            request.session["field_dict"] = field_dict
+            out = request.session["field_dict"]
+    else:
+        field_dict = {}
+
+    # print(f"field dict {field_dict}")
+    # make field readable by database
+    field = request.GET.get("field")
+    print(field)
+    field = field.replace(" ", "_")
+
+    # update field dictionary with new field instructions
+    if field in field_dict.keys():
+        # remove old entry and replace
+        del field_dict[field]
+        request.session["field_dict"] = field_dict
+    # or add new value, get information from database
+    else:
+        try:
+            # get field type, and map type to default
+            ftype = Application._meta.get_field(field).get_internal_type()
+            ftype = ftype[0:4].lower()
+            default = ""
+            if ftype == "inte":
+                default = 0
+            field_dict[field] = [ftype, default]
+            request.session["field_dict"] = field_dict
+        except FieldDoesNotExist:
+            print("not a field")
+
+    return HttpResponse("Success!")
 
 
+def save_edits(request):
 
+    if request.user.is_authenticated and request.method == "POST":
 
+        obj_id = request.POST.get("obj_id")
+        print(obj_id)
+        application = Application.objects.get(id=obj_id)
+        form = ApplicationForm(request.POST, instance=application)
+        if form.is_valid():
+            form.save()
 
+        return render(request, 'search.html')
+
+    else:
+        return redirect("/login")

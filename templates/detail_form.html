@@ -3,7 +3,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
-    <form method="post">
+    <form method="post" id="detail-form">
     {% csrf_token %}
         <div class="container d-flex detail-container">
 {#    FIRST COL     #}
@@ -415,6 +415,21 @@
         <input id="pass_id" name="obj_id" value="{{ app_id }}" hidden>
         <input type="submit" id="submit-form" hidden/>
     </form>
+    <script>
+        $(document).ready(function() {
+            $('#detail-form').on('submit', function(e){
+
+                console.log("here")
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'save_edits',
+                    data: $(this).serialize(),
+                });
+                return false;
+            });
+        });
+    </script>
 </div>
 <div class="modal-footer">
     <label class="btn btn-primary" for="submit-form" tabindex="0" data-bs-dismiss="modal">Save</label>

@@ -1,24 +1,26 @@
 {% load static %}
 {% load sadatabase_tt %}
-{% for field_name, type in field_dict.items %}
+{% for field_name, data in field_dict.items %}
     <div class="row">
         <div class="col">
             <h4><span class="badge bg-secondary">{{ field_name|readable }}</span></h4>
         </div>
         <div class="col">
+            {% if data|get_type != "char" %}
             <select name="{{ field_name|op }}" class="form-select comp-select" aria-label="Default select example">
                 <option value="=" selected>=</option>
                 <option value=">=">>=</option>
                 <option value="<="><=</option>
             </select>
+            {% endif %}
         </div>
         <div class="col">
-            {% if type == "char" %}
-                <input class="form-control me-2 autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="search" placeholder="">
-            {% elif type == "date" %}
-                <input class="form-control me-2 autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="date" placeholder="">
+            {% if data|get_type == "char" %}
+                <input class="form-control me-2 termsInput autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="search" value="{{ data|get_default }}">
+            {% elif data|get_type == "date" %}
+                <input class="form-control me-2 termsInput autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="date" value="{{ data|get_default }}">
             {% else %}
-                <input class="form-control me-2 autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="number" placeholder="">
+                <input class="form-control me-2 termsInput autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="number" value="{{ data|get_default }}">
             {% endif %}
         </div>
         <div class="col-1">
@@ -30,7 +32,7 @@
         </div>
     </div>
     <br>
-    {% if type == "char" %}
+    {% if data|get_type == "char" %}
         <script>
           $( function() {
             let vals = [
@@ -43,8 +45,8 @@
             });
           } );
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
-        <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />
+{#        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>#}
+{#        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>#}
+{#        <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />#}
     {% endif %}
 {% endfor %}

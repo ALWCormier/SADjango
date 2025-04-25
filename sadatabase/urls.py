@@ -9,12 +9,14 @@ from . import views
 
 app_name = 'sadatabase'
 urlpatterns = [
-    path('', views.home_view, name='home'),
+    path('', views.index_view, name='index'),
     path('login/', views.login_view, name='login'),
     path('detail', views.detail, name='detail'),
     path('edit', views.edit, name='edit'),
     path('search', views.search, name='search'),
     path('change_terms', views.change_terms, name="change_terms"),
+    path('update_field_defaults', views.update_field_defaults, name="update_field_defaults"),
+    path('save_edits', views.save_edits, name="save_edits"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

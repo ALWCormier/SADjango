@@ -1,2 +1,8 @@
 .comp-select { width: 4rem; }
 .t-input { width: 10vw; }
+.padding-20 { height: 20px; }
+.modal-big {width: 95%; max-width: 1820px; max-height: 80%; overflow-y: auto;}
+.d-tbl { padding: 3px; }
+.d-col { margin-left: 3px; margin-right: 3px; }
+.hlight { background-color: yellow; }
+.detail-container {font-size: smaller; }
