@@ -2,6 +2,13 @@ from django.db import models
 from django_mysql.models import ListTextField
 from django.forms import ModelForm
 
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+import os.path
+import pickle
+from datetime import date
+
 
 class Tag(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
@@ -124,6 +131,9 @@ class Application(models.Model):
     tag2 = models.ForeignKey(Tag, related_name="second_tag", on_delete=models.SET_NULL, null=True, blank=True)
     tag3 = models.ForeignKey(Tag, related_name="third_tag", on_delete=models.SET_NULL, null=True, blank=True)
     tag4 = models.ForeignKey(Tag, related_name="fourth_tag", on_delete=models.SET_NULL, null=True, blank=True)
+
+    def set_updated(self):
+        self.Last_Updated = date.today()
 
     def __str__(self):
         return str(self.Development_Name)

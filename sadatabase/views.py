@@ -4,9 +4,11 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.core.exceptions import FieldDoesNotExist
 from django.http import HttpResponse
+from django.http import JsonResponse
 from .models import Application
 from .models import ApplicationForm
 import time
+from datetime import date
 
 
 def login_view(request):
@@ -225,8 +227,10 @@ def save_edits(request):
         form = ApplicationForm(request.POST, instance=application)
         if form.is_valid():
             form.save()
+            application.set_updated()
+            application.save()
 
-        return render(request, 'search.html')
+        return JsonResponse({"id": obj_id, "date": date.today()})
 
     else:
         return redirect("/login")
