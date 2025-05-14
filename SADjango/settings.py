@@ -129,6 +129,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+GOOGLE_API = os.path.join(BASE_DIR, 'sadatabase', 'static', 'google_api')
+
 if DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'sadatabase/static')
 else:
