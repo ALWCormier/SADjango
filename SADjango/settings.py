@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ["DEBUG"]
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '3.132.251.228', 'sanderson-db.com']
+ALLOWED_HOSTS = ['127.0.0.1', '3.132.251.228', '.sanderson-db.com']
 
 
 # Application definition
@@ -133,8 +133,15 @@ if DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'sadatabase/static')
 else:
     STATIC_ROOT = '/var/www/sanderson-db.com/static'
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'sadatabase/media/')
+    SECURE_HSTS_SECONDS = 2_592_000  # Unit is seconds; *USE A SMALL VALUE FOR TESTING!*
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    #SECURE_SSL_REDIRECT = TRUE
+    #SESSION_COOKIE_SECURE = TRUE
+    #CSRF_COOKIE_SECURE = TRUE
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'sadatabase/media/')
 
 
 # Default primary key field type
