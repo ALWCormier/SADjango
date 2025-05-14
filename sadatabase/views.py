@@ -4,9 +4,11 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.core.exceptions import FieldDoesNotExist
 from django.http import HttpResponse
+from django.http import JsonResponse
 from .models import Application
 from .models import ApplicationForm
 import time
+from datetime import date
 
 
 def login_view(request):
@@ -117,9 +119,7 @@ def search(request):
                 else:
                     kwargs[field] = request.POST.get(field)
 
-        print(f"kwargs {kwargs}")
         qobjs = Application.objects.filter(**kwargs)
-        print(list({qobjs}))
         context["results"] = list(qobjs)
 
     else:
@@ -161,8 +161,6 @@ def update_field_defaults(request):
     if not request.user.is_authenticated:
         return redirect("/login")
 
-    print(f"start of change terms: {time.time()}")
-
     # create field dictionary, from session or a new dict
     if request.session.get("field_dict", False):
         field_dict = request.session["field_dict"]
@@ -172,7 +170,6 @@ def update_field_defaults(request):
         if valslist:
             termsplit = valslist.split("&")
             for pair in termsplit:
-                print()
                 keyval = pair.split("=")
                 # if the key, or field name exists in field_dict, update the field with the value
                 if keyval[0] in fdkeys:
@@ -187,10 +184,8 @@ def update_field_defaults(request):
     else:
         field_dict = {}
 
-    # print(f"field dict {field_dict}")
     # make field readable by database
     field = request.GET.get("field")
-    print(field)
     field = field.replace(" ", "_")
 
     # update field dictionary with new field instructions
@@ -220,13 +215,14 @@ def save_edits(request):
     if request.user.is_authenticated and request.method == "POST":
 
         obj_id = request.POST.get("obj_id")
-        print(obj_id)
         application = Application.objects.get(id=obj_id)
         form = ApplicationForm(request.POST, instance=application)
         if form.is_valid():
-            form.save()
+            changes = form.changed_data
+            changed_obj = form.save(commit=False)
+            changed_obj.save(update_fields=changes)
 
-        return render(request, 'search.html')
+        return JsonResponse({"id": obj_id, "date": date.today()})
 
     else:
         return redirect("/login")

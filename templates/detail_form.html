@@ -419,12 +419,14 @@
         $(document).ready(function() {
             $('#detail-form').on('submit', function(e){
 
-                console.log("here")
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
                     url: 'save_edits',
                     data: $(this).serialize(),
+                    success: (data) => {
+                        document.getElementById("lu-"+data["id"]).innerHTML = "Last Updated: "+data["date"];
+                    }
                 });
                 return false;
             });

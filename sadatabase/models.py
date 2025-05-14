@@ -1,6 +1,7 @@
 from django.db import models
 from django_mysql.models import ListTextField
 from django.forms import ModelForm
+from django.utils import timezone
 
 
 class Tag(models.Model):
@@ -70,7 +71,7 @@ class Application(models.Model):
     NRF = models.BooleanField(null=True, blank=True)
     Activity = models.CharField(max_length=50, null=True, blank=True)
     Set_Aside = models.CharField(max_length=50, null=True, blank=True)
-    Last_Updated = models.DateField(null=True, blank=True)
+    Last_Updated = models.DateField(null=True, blank=True, auto_now=True)
     Contact_Point = models.CharField(max_length=50, null=True, blank=True)
     Dev_Owner = models.CharField(max_length=50, null=True, blank=True)
     Asset_Manager = models.CharField(max_length=50, null=True, blank=True)
@@ -133,3 +134,14 @@ class ApplicationForm(ModelForm):
     class Meta:
         model = Application
         exclude = ["stage", "USF", "NRF"]
+
+
+class Event(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    development_name = models.CharField(max_length=100)
+    field_name = models.CharField(max_length=100)
+    date = models.DateField(null=True, blank=True)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{str(self.development_name)} {self.field_name.replace('_', ' ')}"

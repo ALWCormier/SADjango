@@ -22,7 +22,6 @@ function detail_table(app_id) {
     ); }
 
 function detail_edit(app_id) {
-    console.log("see here") // sanity check
     $("#dataModal").modal("hide");
     $('#edit_table').html('').load(
         "/edit", "app_id=" + app_id
