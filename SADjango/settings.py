@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ["DEBUG"]
 
 ALLOWED_HOSTS = ['127.0.0.1', '3.132.251.228', '.sanderson-db.com']
 
@@ -142,8 +142,8 @@ else:
     #SECURE_SSL_REDIRECT = TRUE
     #SESSION_COOKIE_SECURE = TRUE
     #CSRF_COOKIE_SECURE = TRUE
-    MEDIA_URL = 'media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'sadatabase/media/')
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'sadatabase/media/')
 
 
 # Default primary key field type

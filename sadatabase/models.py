@@ -141,6 +141,7 @@ class Event(models.Model):
     development_name = models.CharField(max_length=100)
     field_name = models.CharField(max_length=100)
     date = models.DateField(null=True, blank=True)
+    google_id = models.CharField(max_length=100, null=True, blank=True)
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
 
     def __str__(self):
