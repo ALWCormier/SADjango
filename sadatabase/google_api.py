@@ -37,25 +37,23 @@ def build_service():
 
 def format_event(data):
 
-    if django.conf.settings.DEBUG:
-        kwargs1 = {"days": 0, "hours": 0}
-        kwargs2 = {"days": 1, "hours": 0}
-    else:
-        kwargs1 = {"days": 0, "hours": 5}
-        kwargs2 = {"days": 1, "hours": 5}
+    # if django.conf.settings.DEBUG:
+    #     kwargs1 = {"days": 0, "hours": 0}
+    #     kwargs2 = {"days": 1, "hours": 0}
+    # else:
+    #     kwargs1 = {"days": 0, "hours": 5}
+    #     kwargs2 = {"days": 1, "hours": 5}
 
     event = {
         'summary': data["title"],
         'location': "",
         'description': data["title"],
         'start': {
-            'dateTime': (datetime.combine(data["date"], datetime.min.time()).astimezone(
-                tz.gettz("America/Chicago")) + timedelta(**kwargs1)).isoformat(),
+            'dateTime': datetime.combine(data["date"], datetime.min.time()).isoformat(),
             'timeZone': 'America/Chicago',
         },
         'end': {
-            'dateTime': (datetime.combine(data["date"], datetime.min.time()).astimezone(
-                tz.gettz("America/Chicago")) + timedelta(**kwargs2)).isoformat(),
+            'dateTime': (datetime.combine(data["date"], datetime.min.time())+ timedelta(days=1)).isoformat(),
             'timeZone': 'America/Chicago',
         },
     }
@@ -85,7 +83,10 @@ def update_google_event(data):
 def remove_google_event(event_id):
 
     service = build_service()
-    service.events().delete(calendarId="primary", eventId=event_id).execute()
+    try:
+        service.events().delete(calendarId="primary", eventId=event_id).execute()
+    except:
+        print("resource already deleted")
 
 
 def getall_google_events():
