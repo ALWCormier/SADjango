@@ -5,6 +5,10 @@
     {% load sadatabase_tt %}
     <script src="{% static 'js/search.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    {# Error Alert #}
+    <div id="alert" class="alert alert-warning m-3 d-none fade show" role="alert">
+      Not a valid search field. Only fields that appear in the dropdown once you start typing are searchable.
+    </div>
     <div class="padding-20"></div>
     <div class="container">
         <div class="d-flex justify-content-start">
@@ -63,6 +67,8 @@
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
                   rel="stylesheet" type="text/css" />
 
+    {#  --------------  MODALS   --------------  #}
+    {# Search Term Modal #}
     <div class="modal fade" id="termModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="termModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -78,32 +84,6 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="changeField()">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {#  --------------  MODALS   --------------  #}
-    <div class="modal fade" id="moveModal" tabindex="-1" aria-labelledby="moveModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="moveModalLabel">Move Application to a Different Phase?</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body d-flex justify-content-around">
-              <form method="Post" id="delete_form">
-                  {% csrf_token %}
-                  <select name="chosenPhase" class="form-select" aria-label="Project Phases">
-                        <option selected>Application Phase</option>
-                        {% for p in phase_cats %}
-                            <option value="{{ p }}">{{ p }}</option>
-                        {% endfor %}
-                    </select>
-                    <input id="moveID" name="moveID" value="" hidden>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Confirm</button>
-              </form>
           </div>
         </div>
       </div>

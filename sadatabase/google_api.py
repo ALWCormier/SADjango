@@ -1,3 +1,4 @@
+import django.conf
 from django.conf import settings
 
 from googleapiclient.discovery import build
@@ -34,23 +35,39 @@ def build_service():
     return service
 
 
-def create_google_event(data):
+def format_event(data):
 
-    service = build_service()
+    if django.conf.settings.DEBUG:
+        kwargs1 = {"days": 0, "hours": 0}
+        kwargs2 = {"days": 1, "hours": 0}
+    else:
+        kwargs1 = {"days": 0, "hours": 5}
+        kwargs2 = {"days": 1, "hours": 5}
 
     event = {
         'summary': data["title"],
         'location': "",
         'description': data["title"],
         'start': {
-            'dateTime': datetime.combine(data["date"], datetime.min.time()).astimezone(tz.gettz("America/Chicago")).isoformat(),
+            'dateTime': (datetime.combine(data["date"], datetime.min.time()).astimezone(
+                tz.gettz("America/Chicago")) + timedelta(**kwargs1)).isoformat(),
             'timeZone': 'America/Chicago',
         },
         'end': {
-            'dateTime': (datetime.combine(data["date"], datetime.min.time()).astimezone(tz.gettz("America/Chicago"))+timedelta(days=1)).isoformat(),
+            'dateTime': (datetime.combine(data["date"], datetime.min.time()).astimezone(
+                tz.gettz("America/Chicago")) + timedelta(**kwargs2)).isoformat(),
             'timeZone': 'America/Chicago',
         },
     }
+
+    return event
+
+
+def create_google_event(data):
+
+    service = build_service()
+    event = format_event(data)
+
     created_event = service.events().insert(calendarId="primary", body=event).execute()
     print(f"Created event: {created_event['id']}")
     return created_event["id"]
@@ -59,23 +76,8 @@ def create_google_event(data):
 def update_google_event(data):
 
     service = build_service()
+    event = format_event(data)
 
-    event = {
-        'summary': data["title"],
-        'location': "",
-        'description': data["title"],
-        'start': {
-            'dateTime': datetime.combine(data["date"], datetime.min.time()).astimezone(
-                tz.gettz("America/Chicago")).isoformat(),
-            'timeZone': 'America/Chicago',
-        },
-        'end': {
-            'dateTime': (datetime.combine(data["date"], datetime.min.time()).astimezone(
-                tz.gettz("America/Chicago")) + timedelta(days=1)).isoformat(),
-            'timeZone': 'America/Chicago',
-        },
-
-    }
     updated_event = service.events().update(calendarId="primary", eventId=data["id"], body=event).execute()
     print(f"Updated event: {updated_event['id']}")
 

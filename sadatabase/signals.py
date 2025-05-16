@@ -5,7 +5,8 @@ from .models import Application, Event
 from datetime import datetime, timedelta
 from dateutil import tz
 
-from .google_api import create_google_event, update_google_event, remove_google_event, getall_google_events
+from .google_api import build_service, create_google_event, update_google_event
+from .google_api import remove_google_event, getall_google_events
 
 
 @receiver(post_save, sender=Application)

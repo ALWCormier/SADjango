@@ -1,5 +1,5 @@
 from django import template
-from ..models import Application
+from ..models import Application, Tag
 
 register = template.Library()
 
@@ -37,7 +37,10 @@ def readable(s):
 @register.filter(name="get_obj")
 def get_obj(field_name):
 
-    field_vals = list(Application.objects.values_list(field_name, flat=True).distinct())
+    if field_name == "Tags":
+        field_vals = list(Tag.objects.values_list("name", flat=True).distinct())
+    else:
+        field_vals = list(Application.objects.values_list(field_name, flat=True).distinct())
     return ['' if v is None else v for v in field_vals]
 
 

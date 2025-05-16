@@ -5,8 +5,8 @@ from django.contrib.auth import login, authenticate
 from django.core.exceptions import FieldDoesNotExist
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import Application
-from .models import ApplicationForm
+from .models import Application, Tag, ApplicationForm
+from django.db.models import Q
 import time
 from datetime import date
 
@@ -89,8 +89,9 @@ def search(request):
         return redirect("/login")
 
     context = {}
-    all_fields = ["Development_Name", "Development_Owner", "City", "County", "Total_Units", "MR_Units",
-                                "Last_Updated"]
+    all_fields = ["Development_Name", "Development_Owner", "City", "County", "Region", "Developer", "HUB", "Program",
+                  "TDHCA_Number", "Pop_Served", "Activity", "Set_Aside", "Pre-Part-Entities", "Tags"]
+
     context["search_fields"] = all_fields
 
     if request.method == "POST":
@@ -103,6 +104,11 @@ def search(request):
         context["field_dict"] = field_dict
 
         kwargs = {}
+        tags = False
+
+        if "Tags" in request.POST:
+            tags = True
+
         for field in all_fields:
             if field in request.POST:
                 # first, update that field's value in the session information
@@ -116,10 +122,19 @@ def search(request):
                     kwargs[f"{field}__gte"] = request.POST.get(field)
                 elif op == "<=":
                     kwargs[f"{field}__lte"] = request.POST.get(field)
-                else:
+                elif field != "Tags":
                     kwargs[field] = request.POST.get(field)
 
-        qobjs = Application.objects.filter(**kwargs)
+        qobjs = list(Application.objects.filter(**kwargs))
+        if tags:
+            tag_name = request.POST.get("Tags")
+            q1 = Q(tag1__name=tag_name)
+            q2 = Q(tag2__name=tag_name)
+            q3 = Q(tag3__name=tag_name)
+            q4 = Q(tag4__name=tag_name)
+            tag_objs = Application.objects.filter(q1 | q2 | q3 | q4)
+            qobjs = set(qobjs) & set(tag_objs)
+
         context["results"] = list(qobjs)
 
     else:
@@ -194,6 +209,9 @@ def update_field_defaults(request):
         del field_dict[field]
         request.session["field_dict"] = field_dict
     # or add new value, get information from database
+    elif field == "Tags":
+        field_dict["Tags"] = ["char", ""]
+        request.session["field_dict"] = field_dict
     else:
         try:
             # get field type, and map type to default
@@ -205,7 +223,9 @@ def update_field_defaults(request):
             field_dict[field] = [ftype, default]
             request.session["field_dict"] = field_dict
         except FieldDoesNotExist:
-            print("not a field")
+            response = JsonResponse({"error": "Not a field"})
+            response.status_code = 400
+            return response
 
     return HttpResponse("Success!")
 

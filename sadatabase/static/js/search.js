@@ -10,6 +10,12 @@ function changeField(field_name="") {
         data: {"field": field_name, "valslist": inputs.serialize()},
         success: function(data) {
             $('#terms-container').html('').load("/change_terms");
+        },
+        error: function(data) {
+            $('#alert').removeClass('d-none');
+            setTimeout(() => {
+                    $('.alert').alert('close');
+                }, 4000);
         }
     });
 
