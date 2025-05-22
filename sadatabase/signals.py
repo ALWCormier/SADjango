@@ -1,12 +1,13 @@
 from django.db.models.signals import pre_save, post_save, post_delete
 from django.dispatch import receiver
-from .models import Application, Event, PreviousParticipantEntities
+from .models import Application, Event
 
 from datetime import datetime, timedelta
 from dateutil import tz
 
 from .google_api import build_service, create_google_event, update_google_event
 from .google_api import remove_google_event, getall_google_events
+from .models import PreviousParticipantEntities
 
 
 @receiver(post_save, sender=Application)
@@ -53,7 +54,7 @@ def update_events(sender, instance, created, **kwargs):
     # get or create event object, storing (obj, created) in output
     events = []
     for date_field_name in event_dates:
-        new_event_tuple = PreviousParticipantEntities.objects.get_or_create(
+        new_event_tuple = Event.objects.get_or_create(
             development_name=instance.Development_Name,
             field_name=date_field_name,
             defaults={"application": instance, "date": getattr(instance, date_field_name)},

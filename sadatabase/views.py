@@ -285,9 +285,9 @@ def save_edits(request):
             changed_obj = form.save(commit=False)
             changed_obj.save(update_fields=changes)
         else:
+            print("NOT VALID")
             return render(request, "detail_form.html", {"form": form, "app_id": application.id})
 
-        print("here")
         return JsonResponse({"id": obj_id, "date": date.today()})
 
     else:
