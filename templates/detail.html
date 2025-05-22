@@ -1,3 +1,4 @@
+{% load sadatabase_tt %}
 <div class="modal-header">
     <h5 class="modal-title" id="dataModalLabel">Application Details</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -86,6 +87,18 @@
                   <th scope="row">Development Entity</th>
                   <td>{{ detail_obj.Development_Entity }}</td>
                 </tr>
+              </tbody>
+            </table>
+            <table class="table table-bordered table-sm d-tbl">
+              <tbody>
+                <tr>
+                  <th class="text-center" scope="row" colspan="2">Previous Participation Entities</th>
+                </tr>
+                {% for entity in detail_obj|ppes %}
+                    <tr>
+                      <td>{{ entity.name }}</td>
+                    </tr>
+                {% endfor %}
               </tbody>
             </table>
 

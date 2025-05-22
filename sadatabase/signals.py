@@ -1,6 +1,6 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import pre_save, post_save, post_delete
 from django.dispatch import receiver
-from .models import Application, Event
+from .models import Application, Event, PreviousParticipantEntities
 
 from datetime import datetime, timedelta
 from dateutil import tz
@@ -53,7 +53,7 @@ def update_events(sender, instance, created, **kwargs):
     # get or create event object, storing (obj, created) in output
     events = []
     for date_field_name in event_dates:
-        new_event_tuple = Event.objects.get_or_create(
+        new_event_tuple = PreviousParticipantEntities.objects.get_or_create(
             development_name=instance.Development_Name,
             field_name=date_field_name,
             defaults={"application": instance, "date": getattr(instance, date_field_name)},
@@ -66,10 +66,12 @@ def update_events(sender, instance, created, **kwargs):
             name = " ".join(event.field_name.split("_")[:-1])
             event.date = getattr(instance, event.field_name)
             event.save()
-            update_google_event({"title": f"{name} for {event.development_name}", "date": event.date,
-                                 "id": event.google_id})
-
-            print("updated an event")
+            if event.date:
+                update_google_event({"title": f"{name} for {event.development_name}", "date": event.date,
+                                     "id": event.google_id})
+                print("updated an event")
+            else:
+                event.delete()
 
         else:
             name = " ".join(event.field_name.split("_")[:-1])

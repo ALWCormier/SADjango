@@ -1,5 +1,5 @@
 from django import template
-from ..models import Application, Tag
+from ..models import Application, Tag, PreviousParticipantEntities
 
 register = template.Library()
 
@@ -60,3 +60,21 @@ def get_type(datalist):
 def get_default(datalist):
 
     return datalist[1]
+
+
+@register.filter(name="ppes")
+def ppes(obj):
+
+    if obj:
+        try:
+
+            return list(obj.previousparticipantentities_set.all())
+        except Exception as e:
+            print(e)
+
+
+@register.filter(name="get_ppe_field")
+def get_ppe_field(form, number):
+
+    if form:
+        return form[f"ppe{number}"]

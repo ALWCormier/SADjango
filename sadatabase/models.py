@@ -1,5 +1,5 @@
 from django.db import models
-from django_mysql.models import ListTextField
+from django import forms
 from django.forms import ModelForm
 from django.utils import timezone
 
@@ -37,7 +37,6 @@ class Application(models.Model):
     Non_Profit = models.BooleanField(null=True, blank=True)
     NP_Tax_Exempt = models.BooleanField(null=True, blank=True)
     Development_Entity = models.CharField(max_length=100, null=True, blank=True)
-    Pre_Part_Entities = models.CharField(max_length=100, null=True, blank=True)
     Program = models.CharField(max_length=1, choices=[("4", "4%"), ("9", "9%")], null=True, blank=True)
     Total_Funding = models.IntegerField(null=True, blank=True)
     MFDL_Additional_Funding = models.IntegerField(null=True, blank=True)
@@ -73,7 +72,7 @@ class Application(models.Model):
     Set_Aside = models.CharField(max_length=50, null=True, blank=True)
     Last_Updated = models.DateField(null=True, blank=True, auto_now=True)
     Contact_Point = models.CharField(max_length=50, null=True, blank=True)
-    Dev_Owner = models.CharField(max_length=50, null=True, blank=True)
+    Dev_Owner_Phone = models.CharField(max_length=15, null=True, blank=True)
     Asset_Manager = models.CharField(max_length=50, null=True, blank=True)
     # dates
     Commitment_Due_Original = models.DateField(null=True, blank=True)
@@ -131,9 +130,19 @@ class Application(models.Model):
 
 
 class ApplicationForm(ModelForm):
+
+    ppe1 = forms.CharField(max_length=100, required=False)
+    ppe2 = forms.CharField(max_length=100, required=False)
+    ppe3 = forms.CharField(max_length=100, required=False)
+    ppe4 = forms.CharField(max_length=100, required=False)
+    ppe5 = forms.CharField(max_length=100, required=False)
+    ppe6 = forms.CharField(max_length=100, required=False)
+    ppe7 = forms.CharField(max_length=100, required=False)
+    ppe8 = forms.CharField(max_length=100, required=False)
+
     class Meta:
         model = Application
-        exclude = ["stage", "USF", "NRF"]
+        exclude = ["stage", "USF", "NRF", "tag1", "tag2", "tag3", "tag4"]
 
 
 class Event(models.Model):
@@ -146,3 +155,12 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{str(self.development_name)} {self.field_name.replace('_', ' ')}"
+
+
+class PreviousParticipantEntities(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=100)
+    application = models.ManyToManyField(Application)
+
+    def __str__(self):
+        return str(self.name)

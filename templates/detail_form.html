@@ -1,3 +1,4 @@
+{% load sadatabase_tt %}
 <div class="modal-header">
     <h5 class="modal-title" id="dataModalLabel">Edit Application</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -106,6 +107,19 @@
                             <span class='error-message'>{{ form.Development_Entity.errors }}</span></td>
                     </tr>
                     </tbody>
+                </table>
+                <table class="table table-bordered table-sm d-tbl">
+                  <tbody>
+                    <tr>
+                      <th class="text-center" scope="row" colspan="2">Previous Participation Entities</th>
+                    </tr>
+                    {% for entitynum in "12345678" %}
+                        <tr>
+                          <th scope="row">Pre-Part Entity {{ entitynum }}</th>
+                          <td>{{ form|get_ppe_field:entitynum }}</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
                 </table>
 
             </div>
@@ -418,7 +432,7 @@
     <script>
         $(document).ready(function() {
             $('#detail-form').on('submit', function(e){
-
+                console.log("here")
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',

@@ -6,7 +6,7 @@
             <h4><span class="badge bg-secondary">{{ field_name|readable }}</span></h4>
         </div>
         <div class="col">
-            {% if data|get_type != "char" %}
+            {% if data|get_type != "char" and data|get_type != "json" %}
             <select name="{{ field_name|op }}" class="form-select comp-select" aria-label="Default select example">
                 <option value="=" selected>=</option>
                 <option value=">=">>=</option>
@@ -15,7 +15,7 @@
             {% endif %}
         </div>
         <div class="col">
-            {% if data|get_type == "char" %}
+            {% if data|get_type == "char" or data|get_type == "json" %}
                 <input class="form-control me-2 termsInput autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="search" value="{{ data|get_default }}">
             {% elif data|get_type == "date" %}
                 <input class="form-control me-2 termsInput autocomplete" id="{{ field_name }}" name="{{ field_name }}" type="date" value="{{ data|get_default }}">

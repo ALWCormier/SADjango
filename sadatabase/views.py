@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.core.exceptions import FieldDoesNotExist
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import Application, Tag, ApplicationForm
+from .models import Application, Tag, ApplicationForm, PreviousParticipantEntities
 from django.db.models import Q
 import time
 from datetime import date
@@ -90,7 +90,7 @@ def search(request):
 
     context = {}
     all_fields = ["Development_Name", "Development_Owner", "City", "County", "Region", "Developer", "HUB", "Program",
-                  "TDHCA_Number", "Pop_Served", "Activity", "Set_Aside", "Pre-Part-Entities", "Tags"]
+                  "TDHCA_Number", "Pop_Served", "Activity", "Set_Aside", "Pre_Part_Entities", "Tags"]
 
     context["search_fields"] = all_fields
 
@@ -105,9 +105,12 @@ def search(request):
 
         kwargs = {}
         tags = False
-
+        ppe = False
+        # separate handling for non-standard fields
         if "Tags" in request.POST:
             tags = True
+        if "Pre_Part_Entities" in request.POST:
+            ppe = True
 
         for field in all_fields:
             if field in request.POST:
@@ -122,7 +125,7 @@ def search(request):
                     kwargs[f"{field}__gte"] = request.POST.get(field)
                 elif op == "<=":
                     kwargs[f"{field}__lte"] = request.POST.get(field)
-                elif field != "Tags":
+                elif field != "Tags" and field != "Pre_Part_Entities":
                     kwargs[field] = request.POST.get(field)
 
         qobjs = list(Application.objects.filter(**kwargs))
@@ -134,6 +137,11 @@ def search(request):
             q4 = Q(tag4__name=tag_name)
             tag_objs = Application.objects.filter(q1 | q2 | q3 | q4)
             qobjs = set(qobjs) & set(tag_objs)
+
+        if ppe:
+            ppe_objs = Application.objects.filter(Pre_Part_Entities__contains=request.POST.get("Pre_Part_Entities"))
+            print(ppe_objs)
+            qobjs = set(qobjs) & set(ppe_objs)
 
         context["results"] = list(qobjs)
 
@@ -160,6 +168,14 @@ def edit(request):
     app_id = request.GET.get("app_id")
     app_obj = Application.objects.get(id=app_id)
     form = ApplicationForm(instance=app_obj)
+
+    #set defaults for pre-part entities
+    ppes = list(app_obj.previousparticipantentities_set.all())
+    i = 1
+    for entity in ppes:
+        form.initial[f"ppe{i}"] = entity.name
+        i += 1
+
     return render(request, "detail_form.html", {"form": form, "app_id": app_id})
 
 
@@ -239,9 +255,39 @@ def save_edits(request):
         form = ApplicationForm(request.POST, instance=application)
         if form.is_valid():
             changes = form.changed_data
+            # hand PPEs
+            form_ppes = []
+            form_ppe_objs = []
+            # get values in ppe fields from application
+            for i in range(1, 8):
+                ppex = form[f"ppe{i}"].value()
+                if ppex:
+                    form_ppes.append(ppex)
+                    changes.remove(f"ppe{i}")
+            # for each one, get or create a new ppe object for them
+            for x in form_ppes:
+                new_ppe_tuple = PreviousParticipantEntities.objects.get_or_create(
+                    name=x,
+                )
+                if new_ppe_tuple[1]:
+                    new_ppe_tuple[0].save()
+                new_ppe_tuple[0].application.add(application)
+                new_ppe_tuple[0].save()
+                form_ppe_objs.append(new_ppe_tuple[0])
+
+            # take form list of ppe objects, and check against objects associated with app
+            # the difference will be the ones that have been removed
+            associated_ppe_objs = list(application.previousparticipantentities_set.all())
+            removed_ppes = list(set(associated_ppe_objs).difference(set(form_ppe_objs)))
+            for x in removed_ppes:
+                x.application.remove(application)
+
             changed_obj = form.save(commit=False)
             changed_obj.save(update_fields=changes)
+        else:
+            return render(request, "detail_form.html", {"form": form, "app_id": application.id})
 
+        print("here")
         return JsonResponse({"id": obj_id, "date": date.today()})
 
     else:
