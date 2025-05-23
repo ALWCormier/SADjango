@@ -39,6 +39,8 @@ def get_obj(field_name):
 
     if field_name == "Tags":
         field_vals = list(Tag.objects.values_list("name", flat=True).distinct())
+    elif field_name == "Pre_Part_Entities":
+        field_vals = list(PreviousParticipantEntities.objects.values_list("name", flat=True).distinct())
     else:
         field_vals = list(Application.objects.values_list(field_name, flat=True).distinct())
     return ['' if v is None else v for v in field_vals]

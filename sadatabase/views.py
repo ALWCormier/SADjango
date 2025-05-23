@@ -128,7 +128,11 @@ def search(request):
                 elif field != "Tags" and field != "Pre_Part_Entities":
                     kwargs[field] = request.POST.get(field)
 
-        qobjs = list(Application.objects.filter(**kwargs))
+        if kwargs:
+            qobjs = list(Application.objects.filter(**kwargs))
+        else:
+            qobjs = []
+
         if tags:
             tag_name = request.POST.get("Tags")
             q1 = Q(tag1__name=tag_name)
@@ -139,9 +143,13 @@ def search(request):
             qobjs = set(qobjs) & set(tag_objs)
 
         if ppe:
-            ppe_objs = Application.objects.filter(Pre_Part_Entities__contains=request.POST.get("Pre_Part_Entities"))
+            ppe_objs = Application.objects.filter(previousparticipantentities__name__contains=request.POST.get("Pre_Part_Entities"))
             print(ppe_objs)
             qobjs = set(qobjs) & set(ppe_objs)
+
+        if not qobjs:
+            print("no results")
+            context["no_results"] = True
 
         context["results"] = list(qobjs)
 
@@ -227,6 +235,9 @@ def update_field_defaults(request):
     # or add new value, get information from database
     elif field == "Tags":
         field_dict["Tags"] = ["char", ""]
+        request.session["field_dict"] = field_dict
+    elif field == "Pre_Part_Entities":
+        field_dict["Pre_Part_Entities"] = ["char", ""]
         request.session["field_dict"] = field_dict
     else:
         try:

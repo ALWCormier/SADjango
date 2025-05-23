@@ -39,6 +39,11 @@
                     <div class="card-body">
                         <div class="container">
                             <div id="results-container">
+                                {% if no_results %}
+                                    <div class="alert alert-info m-3 fade show" role="alert">
+                                        No Results Returned
+                                    </div>
+                                {% endif %}
                                 {% include "results.html" %}
                             </div>
                         </div>
